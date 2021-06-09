@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <ListView
+        android:id="@+id/list_positiveapp"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:background="#EEFFAA"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/search_positiveApp"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:inputType="text"
+        android:text="장치  내  앱  검색"
+        app:layout_constraintTop_toBottomOf="@+id/list_positiveapp"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/search_button1"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="50dp"
+        android:text="검색"
+        app:layout_constraintTop_toBottomOf="@+id/list_positiveapp"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+<!--    search_positiveApp에서 검색하면 한단어 칠때마다 일치하는 어플리케이션 목록이 디스플레이 되도록 하기-->
+    <ListView
+        android:id="@+id/list_searchApp"
+        android:layout_width="230dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="0dp"
+        android:background="#EEFFAA"
+        app:layout_constraintTop_toBottomOf="@id/search_positiveApp"
+        app:layout_constraintStart_toStartOf="@+id/search_positiveApp"/>
+
+    <EditText
+        android:id="@+id/search_positiveWeb"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:inputType="text"
+        android:text="장치  내  앱  검색"
+        app:layout_constraintTop_toBottomOf="@+id/list_searchApp"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/search_button2"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="50dp"
+        android:text="검색"
+        app:layout_constraintTop_toBottomOf="@+id/list_searchApp"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <!--    search_positiveApp에서 검색하면 한단어 칠때마다 일치하는 어플리케이션 목록이 디스플레이 되도록 하기-->
+    <ListView
+        android:id="@+id/list_searchWpp"
+        android:layout_width="230dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="0dp"
+        android:background="#EEFFAA"
+        app:layout_constraintTop_toBottomOf="@id/search_positiveWeb"
+        app:layout_constraintStart_toStartOf="@+id/search_positiveWeb"/>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
