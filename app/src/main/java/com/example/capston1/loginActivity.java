@@ -1,14 +1,28 @@
 package com.example.capston1;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.Objects;
+
 public class loginActivity extends AppCompatActivity {
+
+    String loginstatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +35,7 @@ public class loginActivity extends AppCompatActivity {
         Button loginKakaoButton=(Button)findViewById(R.id.login_kakao_button);
         Button loginButton=(Button)findViewById(R.id.login_button);
         Button loginJoin=(Button)findViewById(R.id.login_join);
+
 
         loginJoin.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -45,26 +60,110 @@ public class loginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
                 public void onClick(View v) {
-                    String userId = loginId.getText().toString();
-                    String userPw = loginPassword.getText().toString();
 
-                    if (userId.length() == 0) {
-                        //아이디가 입력되지 않은 경우
-                    }
-                    if (userPw.length() == 0) {
-                        //비밀번호가 입력되지 않은 경우
-                    }
+                final String userId = loginId.getText().toString();
+                final String userPw = loginPassword.getText().toString();
+
+                String signTure="T";
+                String signFalse="F";
+
+                if (userId.length() == 0) {
+                    Toast.makeText(getApplicationContext(),"아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else if (userPw.length() == 0) {
+                    Toast.makeText(getApplicationContext(),"비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
                     //입력한 아이디가 일치하지 않는경우
                     //입력한 비밀번호가 일치하지 않는 경우
                     //아이디와 비밀번호가 일치하는 경우
 
-                    Intent intent = new Intent(getApplicationContext(), connectActivity.class);
-                    startActivity(intent);
+                    new Thread(){
+                        public void run(){
+                            try {
+                                GetText(userId, userPw);
+                            }catch (Exception ex){
+                                System.out.println("error : " + ex);
+                            }
+                        }
+                    }.start();
+
+                    Toast.makeText(getApplicationContext(),loginstatus,Toast.LENGTH_SHORT).show();
+
+                    if(loginstatus.equals(signFalse)){
+                        Toast.makeText(getApplicationContext(),"아이디 혹은 비밀번호를 확인해주세요.",Toast.LENGTH_SHORT).show();
+                    }else if (loginstatus.equals(signTure)){
+                        Intent intent = new Intent(getApplicationContext(), connectActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+
                 }
         });
 
 
     }
+
+    public  void  GetText(String id, String passwd)  throws UnsupportedEncodingException
+    {
+        // Set id value
+        String userId = id;
+        String userPw=passwd;
+
+        // Create data
+        //URL로 한국어를 보낼때 잘 안될 수도 있으므로 URLencoder를 이용
+        String data = URLEncoder.encode("id", "UTF-8")
+                + "=" + URLEncoder.encode(userId, "UTF-8")
+                + URLEncoder.encode("passwd", "UTF-8")
+                + "=" + URLEncoder.encode(userPw, "UTF-8");
+
+        String text = "";
+        BufferedReader reader=null;
+
+        try {
+
+            // Defined URL where to send data
+            URL url = new URL("http://192.168.123.104:3000/user/login");
+
+            // Send POST data request
+            URLConnection conn = url.openConnection();
+            conn.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            wr.write(data);
+            wr.flush();
+
+            // Get the server response
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+
+            // Read Server Response
+            while((line = reader.readLine()) != null)
+            {
+                // Append server response in string
+                sb.append(line + "\n");
+            }
+            System.out.println(sb);
+            text = sb.toString();
+            System.out.println(text);
+
+
+        } catch(Exception ex) {
+            System.out.println("error : " + ex);
+        }
+
+        finally {
+            try {
+                reader.close();
+            } catch(Exception ex) {
+                System.out.println("error : " + ex);
+            }
+        }
+
+        // Update global text
+        loginstatus = text;
+    }
 }
+
