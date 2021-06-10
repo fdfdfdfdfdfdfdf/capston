@@ -22,7 +22,6 @@ import java.util.Objects;
 
 public class loginActivity extends AppCompatActivity {
 
-
     EditText loginId;
     EditText loginPassword;
     Button loginNaverButton;
@@ -103,9 +102,11 @@ public class loginActivity extends AppCompatActivity {
                         System.out.println("error : " + ex);
                     }
 
-                    Toast.makeText(getApplicationContext(),loginstatus,Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),loginstatus,Toast.LENGTH_SHORT).show();
+//                    System.out.println("스테이터스 : "+ loginstatus);
+//                    System.out.println("스테이터스 : "+ loginstatus.equals("True\n"));
 
-                    if (loginstatus.equals("True")){
+                    if (loginstatus.equals("True\n")){
                         Intent intent = new Intent(getApplicationContext(), connectActivity.class);
                         startActivity(intent);
                     }
@@ -123,8 +124,9 @@ public class loginActivity extends AppCompatActivity {
 
         // Create data
         //URL로 한국어를 보낼때 잘 안될 수도 있으므로 URLencoder를 이용
-        String data = URLEncoder.encode("userId", "UTF-8")
+        String data = URLEncoder.encode("id", "UTF-8")
                 + "=" + URLEncoder.encode(userId, "UTF-8")
+                + "&"
                 + URLEncoder.encode("passwd", "UTF-8")
                 + "=" + URLEncoder.encode(userPw, "UTF-8");
 

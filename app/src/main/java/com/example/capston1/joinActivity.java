@@ -67,12 +67,11 @@ public class joinActivity extends AppCompatActivity {
                     }
                 });
 
-                if(userPassword!=userPwck){
+                if(!userPassword.equals(userPwck)){
                     //비밀번호가 일치하지 않는다고 알림
                     Toast.makeText(getApplicationContext(),"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
                 }
-
-                if(userName.length()==0||userId.length()==0||userPassword.length()==0||userPwck.length()==0||userEmail.length()==0){
+                else if(userName.length()==0||userId.length()==0||userPassword.length()==0||userPwck.length()==0||userEmail.length()==0){
                     //입력되지 않은 항목이 있다고 알림림
                     Toast.makeText(getApplicationContext(),"입력되지 않은 항목이 있습니다.",Toast.LENGTH_SHORT).show();
                 }
@@ -86,7 +85,9 @@ public class joinActivity extends AppCompatActivity {
                         System.out.println("error : " + ex);
                     }
 
-                    if (joinstatus.equals("True")){
+                    System.out.println("스테이터스 : " + joinstatus);
+
+                    if (joinstatus.equals("True\n")){
                         Intent intent = new Intent(getApplicationContext(), loginActivity.class);
                         startActivity(intent);
                     }
@@ -104,22 +105,22 @@ public class joinActivity extends AppCompatActivity {
 
         // Create data
         //URL로 한국어를 보낼때 잘 안될 수도 있으므로 URLencoder를 이용
-        String data = URLEncoder.encode("userName", "UTF-8")
-                + "=" + URLEncoder.encode(userName, "UTF-8")
-                + URLEncoder.encode("userId", "UTF-8")
+        String data = URLEncoder.encode("id", "UTF-8")
                 + "=" + URLEncoder.encode(userId, "UTF-8")
-                + URLEncoder.encode("userPassword", "UTF-8")
+                + "&"
+                + URLEncoder.encode("name", "UTF-8")
+                + "=" + URLEncoder.encode(userName, "UTF-8")
+                + "&"
+                + URLEncoder.encode("passwd", "UTF-8")
                 + "=" + URLEncoder.encode(userPassword, "UTF-8")
-                + URLEncoder.encode("userPwck", "UTF-8")
-                + "=" + URLEncoder.encode(userPwck, "UTF-8")
-                + URLEncoder.encode("userEmail", "UTF-8")
+                + "&"
+                + URLEncoder.encode("email", "UTF-8")
                 + "=" + URLEncoder.encode(userEmail, "UTF-8");
 
         String text = "";
         BufferedReader reader=null;
 
         try {
-
             // Defined URL where to send data
             URL url = new URL("http://192.168.123.104:3000/user/join");
 
