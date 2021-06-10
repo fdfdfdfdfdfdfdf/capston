@@ -1,2 +1,2 @@
-include ':app', ':mylibrary', ':volley'
+include ':app'
 rootProject.name='capston1'
